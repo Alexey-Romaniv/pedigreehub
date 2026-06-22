@@ -1,10 +1,16 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
+import swaggerUi from 'swagger-ui-express'
 import { errorMiddleware } from './middleware/error.middleware.js'
 import { routes } from './routes/index.js'
+import { swaggerSpec } from './config/swagger.js'
 
 export const app = express()
+
+// Swagger UI — до helmet, иначе CSP блокирует inline-скрипты UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.get('/api-docs.json', (req, res) => res.json(swaggerSpec))
 
 // Middleware
 app.use(helmet())
