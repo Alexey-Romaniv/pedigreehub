@@ -1,0 +1,223 @@
+### Файл для тестирования через REST Client (VS Code расширение)
+### Или используй эти примеры в Postman/Thunder Client
+
+@baseUrl = http://localhost:3000/api
+@token = YOUR_ACCESS_TOKEN_HERE
+@adminToken = ADMIN_ACCESS_TOKEN_HERE
+
+### ============================================
+### 1. АВТОРИЗАЦИЯ
+### ============================================
+
+### Регистрация заводчика
+POST {{baseUrl}}/auth/register/breeder
+Content-Type: application/json
+
+{
+  "email": "breeder@test.com",
+  "password": "Test123456",
+  "firstName": "Jan",
+  "lastName": "Kowalski",
+  "phone": "+48123456789",
+  "breeder": {
+    "kennelName": "Test Kennel",
+    "kennelRegistration": "XII-1234/56",
+    "region": "Mazowieckie",
+    "city": "Warszawa",
+    "description": "Test description",
+    "breeds": []
+  }
+}
+
+### Вход в систему
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "breeder@test.com",
+  "password": "Test123456"
+}
+
+### ============================================
+### 2. ДОКУМЕНТЫ
+### ============================================
+
+### Загрузка документа ZKwP
+POST {{baseUrl}}/documents/upload
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="zkwp.pdf"
+Content-Type: application/pdf
+
+< ./test-files/zkwp.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="type"
+
+zkwp_certificate
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Получить мои документы
+GET {{baseUrl}}/documents/my
+Authorization: Bearer {{token}}
+
+### ============================================
+### 3. АДМИН - МОДЕРАЦИЯ ДОКУМЕНТОВ
+### ============================================
+
+### Получить документы на модерацию
+GET {{baseUrl}}/admin/documents/pending
+Authorization: Bearer {{adminToken}}
+
+### Одобрить документ (замени DOCUMENT_ID)
+POST {{baseUrl}}/admin/documents/DOCUMENT_ID/approve
+Authorization: Bearer {{adminToken}}
+
+### ============================================
+### 4. ОБЪЯВЛЕНИЯ - СОЗДАНИЕ
+### ============================================
+
+### Создать объявление (черновик)
+POST {{baseUrl}}/listings
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+Szczenięta Golden Retriever
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="breed"
+
+BREED_ID_HERE
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="birthDate"
+
+2024-10-15
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="gender"
+
+male
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="color"
+
+Złoty
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+3500
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="currency"
+
+PLN
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="microchipNumber"
+
+616123456789012
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="hasPedigree"
+
+true
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="hasVetPassport"
+
+true
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="hasMetric"
+
+false
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fatherName"
+
+Champion Golden Star
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fatherPedigreeNumber"
+
+PKR.VIII-12345
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="fatherTitles"
+
+["Champion Polski"]
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="motherName"
+
+Lady Sunshine
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="motherPedigreeNumber"
+
+PKR.VIII-54321
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+Piękne szczenięta z doskonałej linii hodowlanej. Zdrowi rodzice z tytułami championów.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="videos"
+
+[]
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="status"
+
+draft
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="photos"; filename="photo1.jpg"
+Content-Type: image/jpeg
+
+< ./test-files/photo1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="photos"; filename="photo2.jpg"
+Content-Type: image/jpeg
+
+< ./test-files/photo2.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="photos"; filename="photo3.jpg"
+Content-Type: image/jpeg
+
+< ./test-files/photo3.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="pedigreeDocument"; filename="pedigree.pdf"
+Content-Type: application/pdf
+
+< ./test-files/pedigree.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="vetPassportDocument"; filename="passport.pdf"
+Content-Type: application/pdf
+
+< ./test-files/passport.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### ============================================
+### 5. ОБЪЯВЛЕНИЯ - ПОЛУЧЕНИЕ
+### ============================================
+
+### Получить мои объявления
+GET {{baseUrl}}/listings/my
+Authorization: Bearer {{token}}
+
+### Получить объявление по ID
+GET {{baseUrl}}/listings/LISTING_ID_HERE
+Authorization: Bearer {{token}}
+
+### Публичный каталог
+GET {{baseUrl}}/listings?page=1&limit=20
+
+### Каталог с фильтрами
+GET {{baseUrl}}/listings?breed=BREED_ID&region=Mazowieckie&priceMin=1000&priceMax=5000&gender=male&verified=true
+
+### ============================================
+### 6. ОБЪЯВЛЕНИЯ - УПРАВЛЕНИЕ
+### ============================================
+
+### Изменить статус объявления
+PATCH {{baseUrl}}/listings/LISTING_ID_HERE/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "pending"
+}
+
+### Удалить объявление
+DELETE {{baseUrl}}/listings/LISTING_ID_HERE
+Authorization: Bearer {{token}}
+
