@@ -3,12 +3,22 @@ node_modules/
 
 # Секреты — НИКОГДА не коммитим
 .env
+.env.*
+!env.example
 
 # Сборки
 dist/
+build/
+coverage/
+*.tsbuildinfo
+# Скомпилированный конфиг Vite — исходник лежит в vite.config.ts
+frontend/vite.config.js
+frontend/vite.config.d.ts
 
 # Служебное
 .DS_Store
 *.log
+npm-debug.log*
+yarn-error.log*
 .vscode/
 .idea/
