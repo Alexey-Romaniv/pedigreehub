@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import { Flex, Spinner } from '@chakra-ui/react'
 
@@ -10,6 +10,13 @@ const BreederProfilePage = lazy(() => import('@/pages/public/BreederProfilePage'
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'))
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'))
 const BreederRegisterPage = lazy(() => import('@/pages/auth/BreederRegisterPage'))
+const BreederDocumentsPage = lazy(() => import('@/pages/breeder/DocumentsPage'))
+const BreederDashboardPage = lazy(() => import('@/pages/breeder/DashboardPage'))
+const CreateListingPage = lazy(() => import('@/pages/breeder/CreateListingPage'))
+const MyListingsPage = lazy(() => import('@/pages/breeder/MyListingsPage'))
+const EditListingPage = lazy(() => import('@/pages/breeder/EditListingPage'))
+const BreederInquiriesPage = lazy(() => import('@/pages/breeder/InquiriesPage'))
+const BreederInquiryThreadPage = lazy(() => import('@/pages/breeder/InquiryThreadPage'))
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'))
 const VerifyEmailPage = lazy(() => import('@/pages/auth/VerifyEmailPage'))
@@ -18,8 +25,10 @@ const VerifyEmailPage = lazy(() => import('@/pages/auth/VerifyEmailPage'))
 import { MainLayout } from '@/app/layouts/MainLayout'
 import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { BreederAuthLayout } from '@/app/layouts/BreederAuthLayout'
+import { BreederLayout } from '@/app/layouts/BreederLayout'
 
 // Route guards
+import { ProtectedRoute } from './ProtectedRoute'
 import { GuestRoute } from './GuestRoute'
 
 // Loading fallback
@@ -57,6 +66,20 @@ export const AppRouter = () => {
         <Route element={<AuthLayout />}>
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
+        </Route>
+
+        {/* Панель заводчика (breeder) — BreederLayout с сайдбаром */}
+        <Route element={<ProtectedRoute allowedRoles={['breeder']} />}>
+          <Route element={<BreederLayout />}>
+            <Route path="/breeder" element={<Navigate to="/breeder/dashboard" replace />} />
+            <Route path="/breeder/dashboard" element={<BreederDashboardPage />} />
+            <Route path="/breeder/documents" element={<BreederDocumentsPage />} />
+            <Route path="/breeder/listings" element={<MyListingsPage />} />
+            <Route path="/breeder/listings/new" element={<CreateListingPage />} />
+            <Route path="/breeder/listings/:id/edit" element={<EditListingPage />} />
+            <Route path="/breeder/inquiries" element={<BreederInquiriesPage />} />
+            <Route path="/breeder/inquiries/:id" element={<BreederInquiryThreadPage />} />
+          </Route>
         </Route>
       </Routes>
     </Suspense>
