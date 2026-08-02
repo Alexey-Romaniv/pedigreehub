@@ -1,0 +1,6 @@
+export { ProfileCard } from './ProfileCard'
+export { VerificationDocuments } from './VerificationDocuments'
+export { SettingsSection } from './SettingsSection'
+export { AvatarUpload } from './AvatarUpload'
+export { AccountDataForm } from './AccountDataForm'
+export { ChangePasswordForm } from './ChangePasswordForm'

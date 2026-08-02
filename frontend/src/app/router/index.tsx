@@ -10,11 +10,16 @@ const BreederProfilePage = lazy(() => import('@/pages/public/BreederProfilePage'
 const LoginPage = lazy(() => import('@/pages/auth/LoginPage'))
 const RegisterPage = lazy(() => import('@/pages/auth/RegisterPage'))
 const BreederRegisterPage = lazy(() => import('@/pages/auth/BreederRegisterPage'))
+const ProfilePage = lazy(() => import('@/pages/profile/ProfilePage'))
+const SettingsPage = lazy(() => import('@/pages/profile/SettingsPage'))
 const BreederDocumentsPage = lazy(() => import('@/pages/breeder/DocumentsPage'))
 const BreederDashboardPage = lazy(() => import('@/pages/breeder/DashboardPage'))
 const CreateListingPage = lazy(() => import('@/pages/breeder/CreateListingPage'))
 const MyListingsPage = lazy(() => import('@/pages/breeder/MyListingsPage'))
 const EditListingPage = lazy(() => import('@/pages/breeder/EditListingPage'))
+const InquiriesPage = lazy(() => import('@/pages/profile/InquiriesPage'))
+const FavoritesPage = lazy(() => import('@/pages/profile/FavoritesPage'))
+const InquiryThreadPage = lazy(() => import('@/pages/profile/InquiryThreadPage'))
 const BreederInquiriesPage = lazy(() => import('@/pages/breeder/InquiriesPage'))
 const BreederInquiryThreadPage = lazy(() => import('@/pages/breeder/InquiryThreadPage'))
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'))
@@ -26,6 +31,7 @@ import { MainLayout } from '@/app/layouts/MainLayout'
 import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { BreederAuthLayout } from '@/app/layouts/BreederAuthLayout'
 import { BreederLayout } from '@/app/layouts/BreederLayout'
+import { UserLayout } from '@/app/layouts/UserLayout'
 
 // Route guards
 import { ProtectedRoute } from './ProtectedRoute'
@@ -66,6 +72,17 @@ export const AppRouter = () => {
         <Route element={<AuthLayout />}>
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
+        </Route>
+
+        {/* Панель покупателя (user, breeder, admin) — аккаунт в UserLayout */}
+        <Route element={<ProtectedRoute allowedRoles={['user', 'breeder', 'admin']} />}>
+          <Route element={<UserLayout />}>
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/favorites" element={<FavoritesPage />} />
+            <Route path="/profile/inquiries" element={<InquiriesPage />} />
+            <Route path="/profile/inquiries/:id" element={<InquiryThreadPage />} />
+            <Route path="/profile/settings" element={<SettingsPage />} />
+          </Route>
         </Route>
 
         {/* Панель заводчика (breeder) — BreederLayout с сайдбаром */}
