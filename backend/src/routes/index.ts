@@ -4,6 +4,7 @@ import { breederRoutes, adminBreederRoutes } from '../modules/breeders/breeder.r
 import { documentRoutes, adminDocumentRoutes } from '../modules/documents/document.routes'
 import { listingRoutes, adminListingRoutes } from '../modules/listings/listing.routes'
 import { breedRoutes } from '../modules/breeds/breed.routes'
+import { userRoutes, adminUserRoutes } from '../modules/users/user.routes'
 
 export const routes = Router()
 
@@ -22,7 +23,11 @@ routes.use('/listings', listingRoutes)
 // Breeds
 routes.use('/breeds', breedRoutes)
 
+// Users (настройки аккаунта)
+routes.use('/users', userRoutes)
+
 // Admin routes
 routes.use('/admin/breeders', adminBreederRoutes)
 routes.use('/admin/documents', adminDocumentRoutes)
 routes.use('/admin/listings', adminListingRoutes)
+routes.use('/admin/users', adminUserRoutes)
