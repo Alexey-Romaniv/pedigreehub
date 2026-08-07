@@ -4,6 +4,7 @@ import { breederRoutes, adminBreederRoutes } from '../modules/breeders/breeder.r
 import { documentRoutes, adminDocumentRoutes } from '../modules/documents/document.routes'
 import { listingRoutes, adminListingRoutes } from '../modules/listings/listing.routes'
 import { breedRoutes } from '../modules/breeds/breed.routes'
+import { inquiryRoutes } from '../modules/inquiries/inquiry.routes'
 import { userRoutes, adminUserRoutes } from '../modules/users/user.routes'
 import { adminStatsRoutes } from '../modules/admin/admin.routes'
 
@@ -23,6 +24,9 @@ routes.use('/listings', listingRoutes)
 
 // Breeds
 routes.use('/breeds', breedRoutes)
+
+// Inquiries
+routes.use('/inquiries', inquiryRoutes)
 
 // Users (настройки аккаунта)
 routes.use('/users', userRoutes)

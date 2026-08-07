@@ -1,0 +1,5 @@
+export { Inquiry, IInquiry, IInquiryMessage, InquiryStatus } from './inquiry.model'
+export { inquiryService } from './inquiry.service'
+export { inquiryController } from './inquiry.controller'
+export { inquiryRoutes } from './inquiry.routes'
+export * from './inquiry.validation'
