@@ -1,0 +1,5 @@
+export { Review, IReview } from './review.model'
+export { reviewService } from './review.service'
+export { reviewController } from './review.controller'
+export { reviewRoutes } from './review.routes'
+export * from './review.validation'

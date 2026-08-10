@@ -5,6 +5,7 @@ import { documentRoutes, adminDocumentRoutes } from '../modules/documents/docume
 import { listingRoutes, adminListingRoutes } from '../modules/listings/listing.routes'
 import { breedRoutes } from '../modules/breeds/breed.routes'
 import { inquiryRoutes } from '../modules/inquiries/inquiry.routes'
+import { reviewRoutes } from '../modules/reviews/review.routes'
 import { userRoutes, adminUserRoutes } from '../modules/users/user.routes'
 import { adminStatsRoutes } from '../modules/admin/admin.routes'
 
@@ -27,6 +28,9 @@ routes.use('/breeds', breedRoutes)
 
 // Inquiries
 routes.use('/inquiries', inquiryRoutes)
+
+// Reviews
+routes.use('/reviews', reviewRoutes)
 
 // Users (настройки аккаунта)
 routes.use('/users', userRoutes)
