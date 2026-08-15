@@ -7,7 +7,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "create-admin": "tsx src/scripts/create-admin.ts",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "vitest run"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
