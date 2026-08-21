@@ -7,6 +7,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "create-admin": "tsx src/scripts/create-admin.ts",
+    "seed-demo": "tsx src/scripts/seed-demo.ts",
+    "upload-demo-photos": "tsx src/scripts/upload-demo-photos.ts",
     "seed-zkwp-cases": "tsx src/scripts/seed-zkwp-cases.ts",
     "lint": "eslint src",
     "test": "vitest run"

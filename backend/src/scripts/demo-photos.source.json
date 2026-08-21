@@ -1,0 +1,272 @@
+[
+  {
+    "key": "bruno-labrador-biszkoptowy",
+    "group": "listings/photos",
+    "publicId": "demo/bruno-labrador-biszkoptowy-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/48/Labrador_Retriever_DS.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ALabrador_Retriever_DS.jpg",
+    "title": "File:Labrador Retriever DS.jpg",
+    "license": "CC BY-SA 3.0",
+    "author": "Augustus Binu/ facebook"
+  },
+  {
+    "key": "bruno-labrador-biszkoptowy",
+    "group": "listings/photos",
+    "publicId": "demo/bruno-labrador-biszkoptowy-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/6/69/Perrito_Labrador.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3APerrito_Labrador.jpg",
+    "title": "File:Perrito Labrador.jpg",
+    "license": "CC0",
+    "author": "https://pixabay.com/es/users/janbarkmann-118439/"
+  },
+  {
+    "key": "bruno-labrador-biszkoptowy",
+    "group": "listings/photos",
+    "publicId": "demo/bruno-labrador-biszkoptowy-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Labrador_at_4months.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ALabrador_at_4months.jpg",
+    "title": "File:Labrador at 4months.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Jefrienannienelson"
+  },
+  {
+    "key": "cora-labrador-czekoladowy",
+    "group": "listings/photos",
+    "publicId": "demo/cora-labrador-czekoladowy-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/41/Rolo%2C_a_Chocolate_Labrador_Puppy.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ARolo%2C_a_Chocolate_Labrador_Puppy.jpg",
+    "title": "File:Rolo, a Chocolate Labrador Puppy.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Ant.hayes"
+  },
+  {
+    "key": "cora-labrador-czekoladowy",
+    "group": "listings/photos",
+    "publicId": "demo/cora-labrador-czekoladowy-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Puppies_Showdown.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3APuppies_Showdown.jpg",
+    "title": "File:Puppies Showdown.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Vsatinet"
+  },
+  {
+    "key": "cora-labrador-czekoladowy",
+    "group": "listings/photos",
+    "publicId": "demo/cora-labrador-czekoladowy-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/4/44/Chocolate_Labrador_Retriever.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AChocolate_Labrador_Retriever.jpg",
+    "title": "File:Chocolate Labrador Retriever.jpg",
+    "license": "Public domain",
+    "author": "Tλε Rαnδom Eδιτor (tαlk)"
+  },
+  {
+    "key": "dante-labrador-czarny",
+    "group": "listings/photos",
+    "publicId": "demo/dante-labrador-czarny-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Salvalabi.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ASalvalabi.jpg",
+    "title": "File:Salvalabi.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Ameichle"
+  },
+  {
+    "key": "dante-labrador-czarny",
+    "group": "listings/photos",
+    "publicId": "demo/dante-labrador-czarny-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Hoffmann_mit_2_Wochen.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AHoffmann_mit_2_Wochen.JPG",
+    "title": "File:Hoffmann mit 2 Wochen.JPG",
+    "license": "CC BY-SA 3.0",
+    "author": "Bene16"
+  },
+  {
+    "key": "dante-labrador-czarny",
+    "group": "listings/photos",
+    "publicId": "demo/dante-labrador-czarny-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c7/N%C3%B6jda_labradorvalpar.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AN%C3%B6jda_labradorvalpar.JPG",
+    "title": "File:Nöjda labradorvalpar.JPG",
+    "license": "CC BY-SA 3.0",
+    "author": "Ginsten"
+  },
+  {
+    "key": "nela-golden-zloty",
+    "group": "listings/photos",
+    "publicId": "demo/nela-golden-zloty-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/3/33/Callie_the_golden_retriever_puppy.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ACallie_the_golden_retriever_puppy.jpg",
+    "title": "File:Callie the golden retriever puppy.jpg",
+    "license": "CC BY 3.0",
+    "author": "MichaelMcPhee"
+  },
+  {
+    "key": "nela-golden-zloty",
+    "group": "listings/photos",
+    "publicId": "demo/nela-golden-zloty-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Cachorrito_de_Golden_Retriever.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ACachorrito_de_Golden_Retriever.JPG",
+    "title": "File:Cachorrito de Golden Retriever.JPG",
+    "license": "CC BY-SA 3.0",
+    "author": "Davizosky"
+  },
+  {
+    "key": "nela-golden-zloty",
+    "group": "listings/photos",
+    "publicId": "demo/nela-golden-zloty-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/8/86/Golden_Retriever_10weeks.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AGolden_Retriever_10weeks.jpg",
+    "title": "File:Golden Retriever 10weeks.jpg",
+    "license": "CC BY-SA 2.5",
+    "author": "Stefan Bauer, http://www.ferras.at"
+  },
+  {
+    "key": "oskar-golden-kremowy",
+    "group": "listings/photos",
+    "publicId": "demo/oskar-golden-kremowy-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b4/%22_15_-_ITALY_-_Golden_Retriver_puppy_in_Italy_-_dog_eat_or_chews_rubber.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3A%22_15_-_ITALY_-_Golden_Retriver_puppy_in_Italy_-_dog_eat_or_chews_rubber.jpg",
+    "title": "File:\" 15 - ITALY - Golden Retriver puppy in Italy - dog eat or chews rubber.jpg",
+    "license": "CC BY-SA 3.0 it",
+    "author": "Pava, Milano ( IT WIKI )"
+  },
+  {
+    "key": "oskar-golden-kremowy",
+    "group": "listings/photos",
+    "publicId": "demo/oskar-golden-kremowy-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/1/18/Dog_Breeds.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ADog_Breeds.jpg",
+    "title": "File:Dog Breeds.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Hebrew Matio"
+  },
+  {
+    "key": "oskar-golden-kremowy",
+    "group": "listings/photos",
+    "publicId": "demo/oskar-golden-kremowy-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c6/First_Day_with_Her_new_Family.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AFirst_Day_with_Her_new_Family.jpg",
+    "title": "File:First Day with Her new Family.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "SheilaDiana"
+  },
+  {
+    "key": "rex-owczarek-czarny-podpalany",
+    "group": "listings/photos",
+    "publicId": "demo/rex-owczarek-czarny-podpalany-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/3/37/Borisz%2C_my_four_months_old_German_Shepherd_dog%21_%2849115984991%29.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ABorisz%2C_my_four_months_old_German_Shepherd_dog!_(49115984991).jpg",
+    "title": "File:Borisz, my four months old German Shepherd dog! (49115984991).jpg",
+    "license": "CC BY 2.0",
+    "author": "bkaree1"
+  },
+  {
+    "key": "rex-owczarek-czarny-podpalany",
+    "group": "listings/photos",
+    "publicId": "demo/rex-owczarek-czarny-podpalany-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/6/60/Cucciolo_di_pastore_tedesco_-_German_Shepherd.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ACucciolo_di_pastore_tedesco_-_German_Shepherd.JPG",
+    "title": "File:Cucciolo di pastore tedesco - German Shepherd.JPG",
+    "license": "CC BY-SA 3.0",
+    "author": "Salento81"
+  },
+  {
+    "key": "rex-owczarek-czarny-podpalany",
+    "group": "listings/photos",
+    "publicId": "demo/rex-owczarek-czarny-podpalany-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Deutscher_Sch%C3%A4ferhund_Welpe.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ADeutscher_Sch%C3%A4ferhund_Welpe.jpg",
+    "title": "File:Deutscher Schäferhund Welpe.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "22Balto22"
+  },
+  {
+    "key": "sara-owczarek-wilczasty",
+    "group": "listings/photos",
+    "publicId": "demo/sara-owczarek-wilczasty-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0a/20140531_German_Shepard_dog_puppy_3151.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3A20140531_German_Shepard_dog_puppy_3151.jpg",
+    "title": "File:20140531 German Shepard dog puppy 3151.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Jakub Hałun"
+  },
+  {
+    "key": "sara-owczarek-wilczasty",
+    "group": "listings/photos",
+    "publicId": "demo/sara-owczarek-wilczasty-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/73/GermanShepPupSitting.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AGermanShepPupSitting.JPG",
+    "title": "File:GermanShepPupSitting.JPG",
+    "license": "CC BY 3.0",
+    "author": "Milnj00"
+  },
+  {
+    "key": "sara-owczarek-wilczasty",
+    "group": "listings/photos",
+    "publicId": "demo/sara-owczarek-wilczasty-3",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fb/GermanShepherdpup.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AGermanShepherdpup.JPG",
+    "title": "File:GermanShepherdpup.JPG",
+    "license": "CC BY 3.0",
+    "author": "Milnj00"
+  },
+  {
+    "key": "kennel-zlota-lapa",
+    "group": "kennels",
+    "publicId": "demo/kennel-zlota-lapa-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e4/3062-labrador-sitting-dog-show_%2820499435755%29.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3A3062-labrador-sitting-dog-show_(20499435755).jpg",
+    "title": "File:3062-labrador-sitting-dog-show (20499435755).jpg",
+    "license": "CC BY 2.0",
+    "author": "localpups"
+  },
+  {
+    "key": "kennel-zlota-lapa",
+    "group": "kennels",
+    "publicId": "demo/kennel-zlota-lapa-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Adult_black_lab.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AAdult_black_lab.jpg",
+    "title": "File:Adult black lab.jpg",
+    "license": "Public domain",
+    "author": "Bighunterman77"
+  },
+  {
+    "key": "kennel-pod-debem",
+    "group": "kennels",
+    "publicId": "demo/kennel-pod-debem-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9a/A_Golden_Retriever-6_%28Barras%29.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AA_Golden_Retriever-6_(Barras).JPG",
+    "title": "File:A Golden Retriever-6 (Barras).JPG",
+    "license": "CC BY 3.0",
+    "author": "Barras"
+  },
+  {
+    "key": "kennel-pod-debem",
+    "group": "kennels",
+    "publicId": "demo/kennel-pod-debem-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/74/A_Golden_Retriever-9_%28Barras%29.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AA_Golden_Retriever-9_(Barras).JPG",
+    "title": "File:A Golden Retriever-9 (Barras).JPG",
+    "license": "CC BY 3.0",
+    "author": "Barras"
+  },
+  {
+    "key": "kennel-krolewska-sfora",
+    "group": "kennels",
+    "publicId": "demo/kennel-krolewska-sfora-1",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Long-haired_German_shepherd_dog.jpg",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3ALong-haired_German_shepherd_dog.jpg",
+    "title": "File:Long-haired German shepherd dog.jpg",
+    "license": "CC BY-SA 4.0",
+    "author": "Primrose2017"
+  },
+  {
+    "key": "kennel-krolewska-sfora",
+    "group": "kennels",
+    "publicId": "demo/kennel-krolewska-sfora-2",
+    "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Altdeutscher_Sch%C3%A4ferhund_Aika.JPG",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File%3AAltdeutscher_Sch%C3%A4ferhund_Aika.JPG",
+    "title": "File:Altdeutscher Schäferhund Aika.JPG",
+    "license": "CC BY 3.0 de",
+    "author": "Elbratzo"
+  }
+]
