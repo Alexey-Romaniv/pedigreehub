@@ -23,7 +23,7 @@ const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
 
 // Домены Cloudflare Pages проекта: сам проект (имя может быть с суффиксом,
 // напр. pedigreehub-2of) и его превью-деплои <hash>.<projekt>.pages.dev
-const pagesOriginPattern = /^https:\/\/([a-z0-9-]+\.)?pedigreehub\.pages\.dev$/
+const pagesOriginPattern = /^https:\/\/([a-z0-9-]+\.)?pedigreehub[a-z0-9-]*\.pages\.dev$/
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -35,7 +35,9 @@ app.use(cors({
     if (process.env.NODE_ENV !== 'production' && /^http:\/\/localhost:\d+$/.test(origin)) {
       return callback(null, true)
     }
-    callback(new Error('Not allowed by CORS'))
+    // Не бросаем ошибку: иначе error middleware отдаёт 500 вместо
+    // обычного отказа. Браузер сам отсечёт ответ без CORS-заголовков.
+    callback(null, false)
   },
   credentials: true,
 }))
