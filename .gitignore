@@ -5,6 +5,8 @@ node_modules/
 .env
 .env.*
 !env.example
+# Исключение: публичный адрес API для прод-сборки фронта, секретов не содержит
+!frontend/.env.production
 
 # Сборки
 dist/
@@ -22,3 +24,9 @@ npm-debug.log*
 yarn-error.log*
 .vscode/
 .idea/
+
+# Архивы
+docs.zip
+
+# Локальная шпаргалка с паролями — репозиторий публичный
+ACCOUNTS.md
