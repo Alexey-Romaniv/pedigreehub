@@ -378,7 +378,7 @@ async function seedDemo() {
   console.log('Konta demo (hasło dla wszystkich: ' + DEMO_PASSWORD + '):')
   for (const b of DEMO_BREEDERS) console.log(`  ${b.kennelName}: ${b.email}`)
   console.log(`  Kupujący: ${DEMO_BUYER.email}`)
-  console.log('  Admin: admin@pedigreehub.pl / Admin1234')
+  console.log('  Admin: admin@pedigreehub.pl (hasło ustawiane przez `yarn create-admin [email] [hasło]`)')
 
   await mongoose.disconnect()
 }
