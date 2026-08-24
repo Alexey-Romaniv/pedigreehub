@@ -276,6 +276,30 @@ export const authService = {
     return { email: user.email }
   },
 
+  /**
+   * Повторная отправка письма с подтверждением email.
+   * Старый токен перезаписывается — активной остаётся только последняя ссылка.
+   */
+  async resendVerificationEmail(userId: string) {
+    const user = await User.findById(userId)
+    if (!user) {
+      throw new AppError('Użytkownik nie znaleziony', 404, 'USER_NOT_FOUND')
+    }
+
+    if (user.isEmailVerified) {
+      throw new AppError('Email jest już potwierdzony', 400, 'EMAIL_ALREADY_VERIFIED')
+    }
+
+    const verificationToken = crypto.randomBytes(32).toString('hex')
+    user.emailVerificationToken = hashToken(verificationToken)
+    user.emailVerificationExpires = new Date(Date.now() + EMAIL_VERIFICATION_TTL_MS)
+    await user.save()
+
+    await emailService.sendVerificationEmail(user.email, verificationToken)
+
+    return { email: user.email }
+  },
+
   async forgotPassword(email: string) {
     const user = await User.findOne({ email: email.toLowerCase() })
 

@@ -165,6 +165,10 @@ export const accountApi = {
     return response.data.data
   },
 
+  resendVerification: async (): Promise<void> => {
+    await axiosInstance.post('/auth/resend-verification')
+  },
+
   changePassword: async (data: ChangePasswordData): Promise<AuthTokens> => {
     const response = await axiosInstance.post<{ success: boolean; data: AuthTokens }>(
       '/auth/change-password',

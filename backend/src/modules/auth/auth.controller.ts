@@ -202,6 +202,23 @@ export const authController = {
   },
 
   /**
+   * Повторная отправка письма с подтверждением email
+   * POST /api/auth/resend-verification
+   */
+  resendVerification: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await authService.resendVerificationEmail(req.userId!)
+
+      res.json({
+        success: true,
+        message: 'Link weryfikacyjny został wysłany ponownie.',
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
+
+  /**
    * Текущий пользователь
    * GET /api/auth/me
    */

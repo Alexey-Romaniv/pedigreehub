@@ -1,8 +1,26 @@
 import { Router } from 'express'
+import rateLimit from 'express-rate-limit'
 import { authController } from './auth.controller'
 import { authMiddleware } from '../../middleware/auth.middleware'
 
 export const authRoutes = Router()
+
+// Лимит на повторную отправку письма: ставится ПОСЛЕ authMiddleware,
+// поэтому ключ — userId (per-user, а не per-IP)
+const resendVerificationLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 3,
+  keyGenerator: (req) => req.userId as string,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: {
+      code: 'RATE_LIMITED',
+      message: 'Za dużo próśb o link weryfikacyjny. Spróbuj ponownie za kilka minut',
+    },
+  },
+})
 
 // Публичные роуты
 
@@ -217,6 +235,33 @@ authRoutes.get('/verify-email/:token', authController.verifyEmail)
  *         $ref: '#/components/responses/Unauthorized'
  */
 authRoutes.get('/me', authMiddleware, authController.me)
+
+/**
+ * @openapi
+ * /auth/resend-verification:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Ponowne wysłanie linku weryfikacyjnego e-mail
+ *     description: >
+ *       Generuje nowy token (TTL 24h) i wysyła e-mail na adres zalogowanego użytkownika.
+ *       Poprzedni link przestaje działać. Limit: 3 próby na 15 minut na użytkownika.
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200:
+ *         description: Link został wysłany ponownie
+ *       400:
+ *         description: E-mail jest już potwierdzony (EMAIL_ALREADY_VERIFIED)
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       429:
+ *         description: Za dużo próśb (RATE_LIMITED)
+ */
+authRoutes.post(
+  '/resend-verification',
+  authMiddleware,
+  resendVerificationLimiter,
+  authController.resendVerification
+)
 
 /**
  * @openapi

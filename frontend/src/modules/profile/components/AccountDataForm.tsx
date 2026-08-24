@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { FormInput, PhoneInput } from '@/shared/ui'
 import { phoneSchema } from '@/shared/validation'
-import { useUpdateProfile } from '../hooks'
+import { useResendVerification, useUpdateProfile } from '../hooks'
 import type { AccountProfile } from '../api'
 
 const accountDataSchema = z.object({
@@ -21,6 +21,7 @@ interface AccountDataFormProps {
 
 export const AccountDataForm = ({ profile }: AccountDataFormProps) => {
   const { mutate, isPending } = useUpdateProfile()
+  const { mutate: resendVerification, isPending: isResending } = useResendVerification()
 
   const {
     register,
@@ -87,12 +88,28 @@ export const AccountDataForm = ({ profile }: AccountDataFormProps) => {
             <Text textStyle="labelM" color="contentBlack01">
               {profile.email}
             </Text>
-            <Badge colorPalette={profile.isEmailVerified ? 'green' : 'gray'}>
-              {profile.isEmailVerified ? 'Potwierdzony' : 'Niepotwierdzony'}
-            </Badge>
+            <Flex align="center" gap="12">
+              <Badge colorPalette={profile.isEmailVerified ? 'green' : 'gray'}>
+                {profile.isEmailVerified ? 'Potwierdzony' : 'Niepotwierdzony'}
+              </Badge>
+              {/* type="button" — иначе кнопка сабмитит форму данных аккаунта */}
+              {!profile.isEmailVerified && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  loading={isResending}
+                  onClick={() => resendVerification()}
+                >
+                  Wyślij ponownie
+                </Button>
+              )}
+            </Flex>
           </Flex>
           <Text textStyle="labelS" color="contentGrey" mt="6">
-            E-mail służy do logowania i nie może zostać zmieniony
+            {profile.isEmailVerified
+              ? 'E-mail służy do logowania i nie może zostać zmieniony'
+              : 'E-mail służy do logowania i nie może zostać zmieniony. Link weryfikacyjny jest ważny 24 godziny'}
           </Text>
         </Box>
 
