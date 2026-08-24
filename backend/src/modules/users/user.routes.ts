@@ -102,6 +102,33 @@ adminRouter.get('/', userController.getUsers as RequestHandler)
 
 /**
  * @openapi
+ * /admin/users/{id}:
+ *   get:
+ *     tags: [Admin]
+ *     summary: Karta użytkownika (panel admina)
+ *     description: >
+ *       Dane konta, powiązana hodowla oraz aktywność: liczba ogłoszeń w rozbiciu
+ *       na statusy, zapytania (jako kupujący i jako hodowca), opinie, ulubione
+ *       i dokumenty. Dodatkowo 5 ostatnich ogłoszeń i 5 ostatnich zapytań.
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - { in: path, name: id, required: true, schema: { type: string } }
+ *     responses:
+ *       200:
+ *         description: Karta użytkownika
+ *       400:
+ *         description: Nieprawidłowy identyfikator (INVALID_ID)
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+adminRouter.get('/:id', userController.getUserDetails as RequestHandler)
+
+/**
+ * @openapi
  * /admin/users/{id}/block:
  *   post:
  *     tags: [Admin]

@@ -9,6 +9,7 @@ import type {
   AdminUsersFilters,
   AdminStats,
   AdminBreederDetails,
+  AdminUserDetails,
 } from '../types'
 
 export const adminApi = {
@@ -38,6 +39,13 @@ export const adminApi = {
   getUsers: async (params?: AdminUsersFilters): Promise<PaginatedResponse<AdminUser>> => {
     const response = await api.get<PaginatedResponse<AdminUser>>('/admin/users', { params })
     return response.data
+  },
+
+  getUserById: async (id: string): Promise<AdminUserDetails> => {
+    const response = await api.get<{ success: boolean; data: AdminUserDetails }>(
+      `/admin/users/${id}`
+    )
+    return response.data.data
   },
 
   blockUser: (id: string) =>

@@ -122,6 +122,23 @@ export const userController = {
   },
 
   /**
+   * Карточка пользователя со статистикой
+   * GET /api/admin/users/:id
+   */
+  getUserDetails: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await userService.getUserDetails(req.params.id)
+
+      res.json({
+        success: true,
+        data,
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
+
+  /**
    * Блокировка пользователя
    * POST /api/admin/users/:id/block
    */

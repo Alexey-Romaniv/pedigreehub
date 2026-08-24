@@ -14,9 +14,9 @@ import {
 } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { LuChevronDown, LuChevronUp, LuLockKeyhole, LuLockKeyholeOpen, LuSearch } from 'react-icons/lu'
+import { Link, useNavigate } from 'react-router-dom'
+import { LuChevronRight, LuLockKeyhole, LuLockKeyholeOpen, LuSearch } from 'react-icons/lu'
 import { adminApi } from '@/modules/admin/api'
-import { BreederDetails } from '@/modules/admin/components'
 import type { AdminUser, AdminUsersFilters } from '@/modules/admin/types'
 import { toaster } from '@/shared/theme/toaster'
 import { getApiErrorMessage } from '@/shared/api'
@@ -54,10 +54,21 @@ const UserRow = ({
   onToggleBlock: (user: AdminUser) => void
 }) => {
   const role = roleLabels[user.role]
-  const [showBreeder, setShowBreeder] = useState(false)
+  const navigate = useNavigate()
 
   return (
-    <Box bg="backgroundGrey" borderRadius="12px" p="16">
+    <Box
+      bg="backgroundGrey"
+      borderRadius="12px"
+      p="16"
+      border="1px solid"
+      borderColor="transparent"
+      cursor="pointer"
+      transition="border-color 0.15s ease-out"
+      // Отдельного hover-токена фона в теме нет — подсвечиваем рамкой
+      _hover={{ borderColor: 'linePrimary' }}
+      onClick={() => navigate(`/admin/users/${user._id}`)}
+    >
       <Flex
         gap="16"
         align={{ base: 'flex-start', md: 'center' }}
@@ -92,43 +103,38 @@ const UserRow = ({
           <Text textStyle="labelS" color="contentGrey" mb="8">
             Rejestracja: {formatDate(user.createdAt)}
           </Text>
-          {user.role !== 'admin' && (
-            <Button
-              variant="outline"
-              size="sm"
-              colorPalette={user.isBlocked ? 'green' : 'red'}
-              onClick={() => onToggleBlock(user)}
-            >
-              {user.isBlocked ? (
-                <>
-                  <LuLockKeyholeOpen size={14} /> Odblokuj
-                </>
-              ) : (
-                <>
-                  <LuLockKeyhole size={14} /> Zablokuj
-                </>
-              )}
+          <Flex gap="8" justify={{ base: 'flex-start', md: 'flex-end' }}>
+            <Button variant="ghost" size="sm" asChild onClick={(e) => e.stopPropagation()}>
+              <Link to={`/admin/users/${user._id}`}>
+                Szczegóły
+                <LuChevronRight size={14} />
+              </Link>
             </Button>
-          )}
+            {user.role !== 'admin' && (
+              <Button
+                variant="outline"
+                size="sm"
+                colorPalette={user.isBlocked ? 'green' : 'red'}
+                // Клик по строке ведёт в карточку — блокировка не должна её открывать
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onToggleBlock(user)
+                }}
+              >
+                {user.isBlocked ? (
+                  <>
+                    <LuLockKeyholeOpen size={14} /> Odblokuj
+                  </>
+                ) : (
+                  <>
+                    <LuLockKeyhole size={14} /> Zablokuj
+                  </>
+                )}
+              </Button>
+            )}
+          </Flex>
         </Box>
       </Flex>
-
-      {/* Данные питомника подгружаются по требованию — там же NIP и документы */}
-      {user.breeder?.id && (
-        <>
-          <Button
-            variant="ghost"
-            size="sm"
-            mt="12"
-            px="0"
-            onClick={() => setShowBreeder((prev) => !prev)}
-          >
-            {showBreeder ? <LuChevronUp size={14} /> : <LuChevronDown size={14} />}
-            Dane hodowcy
-          </Button>
-          {showBreeder && <BreederDetails breederId={user.breeder.id} />}
-        </>
-      )}
     </Box>
   )
 }

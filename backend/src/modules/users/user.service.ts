@@ -1,6 +1,11 @@
 import { FilterQuery, Types } from 'mongoose'
 import { User, IUser } from './user.model'
 import { Breeder } from '../breeders/breeder.model'
+import { Listing } from '../listings/listing.model'
+import { Inquiry } from '../inquiries/inquiry.model'
+import { Review } from '../reviews/review.model'
+import { Favorite } from '../favorites/favorite.model'
+import { DocumentModel } from '../documents/document.model'
 import { AppError } from '../../middleware/error.middleware'
 import { cloudinaryService } from '../../services/cloudinary.service'
 import { UpdateProfileInput } from './user.validation'
@@ -90,6 +95,107 @@ class UserService {
       users: items,
       total,
       pages: Math.ceil(total / limit),
+    }
+  }
+
+  /**
+   * Карточка пользователя для админ-панели: аккаунт, питомник (если заводчик)
+   * и вся его активность на площадке.
+   *
+   * Счётчики зависят от роли: у покупателя это отправленные запросы, избранное
+   * и написанные отзывы, у заводчика — ещё и объявления, входящие запросы,
+   * полученные отзывы и загруженные документы.
+   */
+  async getUserDetails(userId: string) {
+    if (!Types.ObjectId.isValid(userId)) {
+      throw new AppError('Nieprawidłowy identyfikator użytkownika', 400, 'INVALID_ID')
+    }
+
+    const user = await User.findById(userId).select(SAFE_PROJECTION).lean()
+    if (!user) {
+      throw new AppError('Użytkownik nie znaleziony', 404, 'USER_NOT_FOUND')
+    }
+
+    const breeder = await Breeder.findOne({ userId: user._id })
+      .select('kennelName verification.status verification.level listingsCount rating createdAt')
+      .lean()
+
+    const [inquiriesAsBuyer, reviewsWritten, favorites, documentsTotal, documentsPending] =
+      await Promise.all([
+        Inquiry.countDocuments({ buyerId: user._id }),
+        Review.countDocuments({ buyerId: user._id }),
+        Favorite.countDocuments({ userId: user._id }),
+        DocumentModel.countDocuments({ userId: user._id }),
+        DocumentModel.countDocuments({ userId: user._id, status: 'pending' }),
+      ])
+
+    // Объявления и входящие запросы привязаны к питомнику, а не к пользователю
+    const [listingsByStatus, inquiriesAsBreeder, reviewsReceived, recentListings] = breeder
+      ? await Promise.all([
+          Listing.aggregate<{ _id: string; count: number }>([
+            { $match: { breederId: breeder._id } },
+            { $group: { _id: '$status', count: { $sum: 1 } } },
+          ]),
+          Inquiry.countDocuments({ breederId: breeder._id }),
+          Review.countDocuments({ breederId: breeder._id }),
+          Listing.find({ breederId: breeder._id })
+            .select('title status verificationStatus price photos createdAt')
+            .sort({ createdAt: -1 })
+            .limit(5)
+            .lean(),
+        ])
+      : [[], 0, 0, []]
+
+    const listings = listingsByStatus.reduce<Record<string, number>>(
+      (acc, row) => ({ ...acc, [row._id]: row.count }),
+      {}
+    )
+
+    const recentInquiries = await Inquiry.find({
+      $or: [{ buyerId: user._id }, ...(breeder ? [{ breederId: breeder._id }] : [])],
+    })
+      .select('listingId status lastMessageAt createdAt buyerId')
+      .populate('listingId', 'title')
+      .sort({ lastMessageAt: -1 })
+      .limit(5)
+      .lean()
+
+    return {
+      user,
+      breeder: breeder
+        ? {
+            id: breeder._id.toString(),
+            kennelName: breeder.kennelName,
+            verificationStatus: breeder.verification?.status,
+            verificationLevel: breeder.verification?.level,
+            listingsCount: breeder.listingsCount,
+            rating: breeder.rating,
+            createdAt: breeder.createdAt,
+          }
+        : null,
+      stats: {
+        listings: {
+          total: Object.values(listings).reduce((sum, count) => sum + count, 0),
+          byStatus: listings,
+        },
+        inquiriesAsBuyer,
+        inquiriesAsBreeder,
+        reviewsWritten,
+        reviewsReceived,
+        favorites,
+        documents: { total: documentsTotal, pending: documentsPending },
+      },
+      recentListings,
+      recentInquiries: recentInquiries.map((inquiry) => ({
+        id: inquiry._id.toString(),
+        // Заголовок объявления приходит из populate, но объявление могли удалить
+        listingTitle: (inquiry.listingId as unknown as { title?: string })?.title,
+        status: inquiry.status,
+        // Одну и ту же переписку админ видит с разных сторон в зависимости от роли
+        role: inquiry.buyerId.toString() === user._id.toString() ? 'buyer' : 'breeder',
+        lastMessageAt: inquiry.lastMessageAt,
+        createdAt: inquiry.createdAt,
+      })),
     }
   }
 

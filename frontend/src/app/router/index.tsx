@@ -26,6 +26,7 @@ const AdminVerificationPage = lazy(() => import('@/pages/admin/VerificationPage'
 const AdminListingModerationPage = lazy(() => import('@/pages/admin/ListingModerationPage'))
 const AdminDashboardPage = lazy(() => import('@/pages/admin/DashboardPage'))
 const AdminUsersPage = lazy(() => import('@/pages/admin/UsersPage'))
+const AdminUserDetailsPage = lazy(() => import('@/pages/admin/UserDetailsPage'))
 const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'))
 const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'))
 const VerifyEmailPage = lazy(() => import('@/pages/auth/VerifyEmailPage'))
@@ -111,6 +112,7 @@ export const AppRouter = () => {
             <Route path="/admin/verification" element={<AdminVerificationPage />} />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
+            <Route path="/admin/users/:id" element={<AdminUserDetailsPage />} />
             <Route path="/admin/moderation" element={<AdminListingModerationPage />} />
           </Route>
         </Route>

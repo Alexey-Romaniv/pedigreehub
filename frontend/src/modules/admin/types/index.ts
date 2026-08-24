@@ -160,6 +160,59 @@ export interface AdminUser {
   }
 }
 
+// Карточка пользователя для админа (GET /admin/users/:id)
+export interface AdminUserListingSummary {
+  _id: string
+  title: string
+  price: number
+  photos: string[]
+  status: string
+  verificationStatus: string
+  createdAt: string
+}
+
+export interface AdminUserInquirySummary {
+  id: string
+  listingTitle?: string
+  status: string
+  // Одну переписку админ видит с двух сторон: пользователь мог быть покупателем
+  // или получателем запроса как хозяин питомника
+  role: 'buyer' | 'breeder'
+  lastMessageAt: string
+  createdAt: string
+}
+
+export interface AdminUserDetails {
+  user: AdminUser & {
+    avatar?: string
+    isVerified: boolean
+    updatedAt: string
+  }
+  breeder: {
+    id: string
+    kennelName: string
+    verificationStatus?: string
+    verificationLevel?: string
+    listingsCount: number
+    rating: number
+    createdAt: string
+  } | null
+  stats: {
+    listings: {
+      total: number
+      byStatus: Record<string, number>
+    }
+    inquiriesAsBuyer: number
+    inquiriesAsBreeder: number
+    reviewsWritten: number
+    reviewsReceived: number
+    favorites: number
+    documents: { total: number; pending: number }
+  }
+  recentListings: AdminUserListingSummary[]
+  recentInquiries: AdminUserInquirySummary[]
+}
+
 // Полный профиль заводчика для админа (GET /admin/breeders/:id) —
 // в отличие от публичного профиля здесь не вырезаны NIP и документ тождества
 export interface AdminBreederDocument {
