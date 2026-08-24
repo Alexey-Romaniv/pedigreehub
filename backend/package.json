@@ -9,6 +9,8 @@
     "create-admin": "tsx src/scripts/create-admin.ts",
     "seed-demo": "tsx src/scripts/seed-demo.ts",
     "upload-demo-photos": "tsx src/scripts/upload-demo-photos.ts",
+    "cleanup-test-data": "tsx src/scripts/cleanup-test-data.ts",
+    "backup-db": "tsx src/scripts/backup-db.ts",
     "seed-zkwp-cases": "tsx src/scripts/seed-zkwp-cases.ts",
     "lint": "eslint src",
     "test": "vitest run"
