@@ -33,6 +33,44 @@ class EmailService {
     return this.transporter !== null
   }
 
+  /**
+   * Проверка соединения с SMTP-сервером (логин/пароль, хост, порт).
+   * Используется скриптом `yarn test-email` перед реальной отправкой.
+   */
+  async verifyConnection(): Promise<{ ok: boolean; error?: string }> {
+    if (!this.transporter) {
+      return { ok: false, error: 'SMTP nie jest skonfigurowany (brak SMTP_HOST/USER/PASS)' }
+    }
+
+    try {
+      await this.transporter.verify()
+      return { ok: true }
+    } catch (error) {
+      return {
+        ok: false,
+        error: error instanceof Error ? error.message : String(error),
+      }
+    }
+  }
+
+  /**
+   * Тестовое письмо — проверка сквозной доставки (`yarn test-email <adres>`).
+   * В отличие от остальных методов бросает ошибку, чтобы скрипт увидел причину.
+   */
+  async sendTestEmail(to: string): Promise<void> {
+    await this.send({
+      to,
+      subject: 'PedigreeHub — test konfiguracji SMTP',
+      html: this.wrapLayout(
+        'Test konfiguracji SMTP',
+        `
+        <p>Jeśli widzisz tę wiadomość, wysyłka email z PedigreeHub działa poprawnie.</p>
+        <p style="font-size: 13px; color: #595959;">Adres frontendu w linkach: ${env.FRONTEND_URL}</p>
+        `
+      ),
+    })
+  }
+
   private async send(options: SendEmailOptions): Promise<void> {
     if (!this.transporter) {
       // Dev-fallback: логируем письмо вместо отправки

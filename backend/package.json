@@ -12,6 +12,8 @@
     "cleanup-test-data": "tsx src/scripts/cleanup-test-data.ts",
     "backup-db": "tsx src/scripts/backup-db.ts",
     "seed-zkwp-cases": "tsx src/scripts/seed-zkwp-cases.ts",
+    "test-email": "tsx src/scripts/test-email.ts",
+    "check-chip": "tsx src/scripts/check-chip.ts",
     "lint": "eslint src",
     "test": "vitest run"
   },
