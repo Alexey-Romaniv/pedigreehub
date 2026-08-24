@@ -1,6 +1,7 @@
 import { Box, Text, Flex, Button, Badge, Stack, SimpleGrid, Image, Textarea } from '@chakra-ui/react'
 import { LuCheck, LuX, LuExternalLink, LuTriangleAlert, LuCircleCheck, LuCircleHelp } from 'react-icons/lu'
 import { useState } from 'react'
+import { ImageLightbox, useImageLightbox } from '@/shared/ui'
 import type { AdminListing } from '../types'
 import { DocumentViewer } from './DocumentViewer'
 
@@ -55,6 +56,25 @@ export const AdminListingPreview = ({
 }: AdminListingPreviewProps) => {
   const [rejectReason, setRejectReason] = useState('')
   const [showRejectForm, setShowRejectForm] = useState(false)
+
+  // Один просмотрщик на всё объявление: модератор листает снимки щенка
+  // и фото родителей подряд, не закрывая окно
+  const photos = listing?.photos || []
+  const gallery = useImageLightbox([
+    ...photos.map((photo, index) => ({
+      src: photo,
+      alt: listing?.title,
+      caption: `Zdjęcie ${index + 1} z ${photos.length}`,
+    })),
+    ...(listing?.father?.photo
+      ? [{ src: listing.father.photo, alt: listing.father.name, caption: `Ojciec: ${listing.father.name}` }]
+      : []),
+    ...(listing?.mother?.photo
+      ? [{ src: listing.mother.photo, alt: listing.mother.name, caption: `Matka: ${listing.mother.name}` }]
+      : []),
+  ])
+  const fatherPhotoIndex = photos.length
+  const motherPhotoIndex = photos.length + (listing?.father?.photo ? 1 : 0)
 
   if (!listing) {
     return (
@@ -231,6 +251,8 @@ export const AdminListingPreview = ({
                     bg="backgroundPrimary"
                     border="1px solid"
                     borderColor="linePrimary"
+                    cursor="zoom-in"
+                    onClick={() => gallery.openAt(index)}
                   >
                     <Image
                       src={photo}
@@ -316,6 +338,8 @@ export const AdminListingPreview = ({
                           border="1px solid"
                           borderColor="linePrimary"
                           flexShrink={0}
+                          cursor="zoom-in"
+                          onClick={() => gallery.openAt(fatherPhotoIndex)}
                         >
                           <Image
                             src={listing.father.photo}
@@ -362,6 +386,8 @@ export const AdminListingPreview = ({
                           border="1px solid"
                           borderColor="linePrimary"
                           flexShrink={0}
+                          cursor="zoom-in"
+                          onClick={() => gallery.openAt(motherPhotoIndex)}
                         >
                           <Image
                             src={listing.mother.photo}
@@ -722,6 +748,8 @@ export const AdminListingPreview = ({
           </Box>
         </Stack>
       </Box>
+
+      <ImageLightbox {...gallery.lightboxProps} />
     </Box>
   )
 }

@@ -1,6 +1,6 @@
 import { Box, Text, Flex, Button, Badge, Image } from '@chakra-ui/react'
 import { LuDownload, LuExternalLink, LuFile } from 'react-icons/lu'
-import { useState } from 'react'
+import { ImageLightbox, useImageLightbox } from '@/shared/ui'
 
 interface Document {
   _id: string
@@ -18,7 +18,12 @@ interface DocumentViewerProps {
 }
 
 export const DocumentViewer = ({ document, title, required }: DocumentViewerProps) => {
-  const [showPreview, setShowPreview] = useState(false)
+  const doc = typeof document === 'object' && document !== null ? document : null
+  const lightbox = useImageLightbox(
+    doc?.mimeType?.startsWith('image/')
+      ? [{ src: doc.fileUrl, alt: doc.originalName, caption: doc.originalName }]
+      : []
+  )
 
   if (!document) {
     return (
@@ -47,7 +52,8 @@ export const DocumentViewer = ({ document, title, required }: DocumentViewerProp
     )
   }
 
-  const doc = document as Document
+  if (!doc) return null
+
   const isImage = doc.mimeType?.startsWith('image/')
   const isPdf = doc.mimeType === 'application/pdf'
 
@@ -78,34 +84,10 @@ export const DocumentViewer = ({ document, title, required }: DocumentViewerProp
               w="full"
               maxH="400px"
               objectFit="contain"
-              cursor="pointer"
-              onClick={() => setShowPreview(!showPreview)}
+              cursor="zoom-in"
+              onClick={() => lightbox.openAt(0)}
             />
-            {showPreview && (
-              <Box
-                position="fixed"
-                top="0"
-                left="0"
-                right="0"
-                bottom="0"
-                bg="rgba(0,0,0,0.9)"
-                zIndex={1000}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                p="40"
-                onClick={() => setShowPreview(false)}
-                cursor="pointer"
-              >
-                <Image
-                  src={doc.fileUrl}
-                  alt={doc.originalName}
-                  maxW="90%"
-                  maxH="90%"
-                  objectFit="contain"
-                />
-              </Box>
-            )}
+            <ImageLightbox {...lightbox.lightboxProps} />
           </Box>
         ) : isPdf ? (
           <Box h="400px">

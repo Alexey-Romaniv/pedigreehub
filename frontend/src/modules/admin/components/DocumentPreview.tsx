@@ -1,6 +1,7 @@
 import { Box, Text, Flex, Button, Badge, Textarea, Stack } from '@chakra-ui/react'
 import { LuCheck, LuX, LuDownload, LuExternalLink } from 'react-icons/lu'
 import { useState } from 'react'
+import { ImageLightbox, useImageLightbox } from '@/shared/ui'
 import type { PendingDocument, DocumentType } from '../types'
 
 interface DocumentPreviewProps {
@@ -32,6 +33,11 @@ export const DocumentPreview = ({
 }: DocumentPreviewProps) => {
   const [rejectReason, setRejectReason] = useState('')
   const [showRejectForm, setShowRejectForm] = useState(false)
+  const lightbox = useImageLightbox(
+    document?.mimeType.startsWith('image/')
+      ? [{ src: document.fileUrl, alt: document.originalName, caption: document.originalName }]
+      : []
+  )
 
   if (!document) {
     return (
@@ -150,16 +156,22 @@ export const DocumentPreview = ({
       {/* Preview */}
       <Box flex="1" p="16" overflow="auto" bg="backgroundGrey">
         {isImage ? (
-          <img
-            src={document.fileUrl}
-            alt={document.originalName}
-            style={{
-              maxWidth: '100%',
-              maxHeight: '100%',
-              objectFit: 'contain',
-              borderRadius: '8px',
-            }}
-          />
+          <>
+            {/* Скан открывается на весь экран — иначе мелкий текст не прочитать */}
+            <img
+              src={document.fileUrl}
+              alt={document.originalName}
+              onClick={() => lightbox.openAt(0)}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                objectFit: 'contain',
+                borderRadius: '8px',
+                cursor: 'zoom-in',
+              }}
+            />
+            <ImageLightbox {...lightbox.lightboxProps} />
+          </>
         ) : isPdf ? (
           <iframe
             src={document.fileUrl}

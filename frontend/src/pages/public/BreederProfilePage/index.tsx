@@ -23,6 +23,7 @@ import {
 import { breederApi } from '@/modules/breeder/api'
 import type { VerificationLevel } from '@/modules/breeder/types'
 import { BREEDER_BADGES } from '@/shared/constants'
+import { ImageLightbox, useImageLightbox } from '@/shared/ui'
 import { usePublicListings } from '@/modules/listings/hooks'
 import { ListingCard } from '@/modules/listings/components'
 import { ReviewsList, StarRating, opinionsLabel, useBreederReviews } from '@/modules/reviews'
@@ -60,6 +61,13 @@ const BreederProfilePage = () => {
 
   const { data: reviewsData, isLoading: reviewsLoading } = useBreederReviews(id)
   const reviews = reviewsData?.reviews || []
+
+  const kennelPhotos = useImageLightbox(
+    (breeder?.kennelPhotos || []).map((photo) => ({
+      src: photo,
+      alt: `Hodowla ${breeder?.kennelName}`,
+    }))
+  )
 
   if (isLoading) {
     return (
@@ -239,7 +247,7 @@ const BreederProfilePage = () => {
               Zdjęcia hodowli
             </Text>
             <SimpleGrid columns={{ base: 2, md: 4 }} gap="12">
-              {breeder.kennelPhotos.map((photo) => (
+              {breeder.kennelPhotos.map((photo, index) => (
                 <Image
                   key={photo}
                   src={photo}
@@ -249,9 +257,12 @@ const BreederProfilePage = () => {
                   objectFit="cover"
                   borderRadius="8px"
                   bg="backgroundGrey"
+                  cursor="zoom-in"
+                  onClick={() => kennelPhotos.openAt(index)}
                 />
               ))}
             </SimpleGrid>
+            <ImageLightbox {...kennelPhotos.lightboxProps} />
           </Box>
         )}
 

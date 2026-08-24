@@ -25,7 +25,7 @@ import {
 } from 'react-icons/lu'
 import { useListing } from '@/modules/listings/hooks'
 import { InquiryFormDialog } from '@/modules/inquiries'
-import { FavoriteButton } from '@/shared/ui'
+import { FavoriteButton, ImageLightbox, useImageLightbox } from '@/shared/ui'
 import { opinionsLabel } from '@/modules/reviews'
 import { useAuthStore } from '@/store'
 import type { Listing, ListingDocumentInfo } from '@/modules/listings/types'
@@ -108,6 +108,11 @@ interface ParentCardProps {
 }
 
 const ParentCard = ({ title, parent }: ParentCardProps) => {
+  const photo = parent?.photo
+  const lightbox = useImageLightbox(
+    photo ? [{ src: photo, alt: parent?.name, caption: `${title}: ${parent?.name}` }] : []
+  )
+
   if (!parent?.name) return null
 
   return (
@@ -123,16 +128,21 @@ const ParentCard = ({ title, parent }: ParentCardProps) => {
       </Text>
       <Flex gap="12" align="flex-start">
         {parent.photo && (
-          <Image
-            src={parent.photo}
-            alt={parent.name}
-            w="72px"
-            h="72px"
-            objectFit="cover"
-            borderRadius="8px"
-            bg="backgroundGrey"
-            flexShrink={0}
-          />
+          <>
+            <Image
+              src={parent.photo}
+              alt={parent.name}
+              w="72px"
+              h="72px"
+              objectFit="cover"
+              borderRadius="8px"
+              bg="backgroundGrey"
+              flexShrink={0}
+              cursor="zoom-in"
+              onClick={() => lightbox.openAt(0)}
+            />
+            <ImageLightbox {...lightbox.lightboxProps} />
+          </>
         )}
         <Box minW="0">
           <Text textStyle="labelMSemibold" color="contentBlack01" mb="4">
@@ -162,6 +172,7 @@ const PuppyPage = () => {
   const { id } = useParams<{ id: string }>()
   const { data: listing, isLoading, isError } = useListing(id)
   const [photoIndex, setPhotoIndex] = useState(0)
+  const [galleryOpen, setGalleryOpen] = useState(false)
   const [inquiryOpen, setInquiryOpen] = useState(false)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const navigate = useNavigate()
@@ -234,6 +245,8 @@ const PuppyPage = () => {
                 objectFit="cover"
                 borderRadius="12px"
                 bg="backgroundGrey"
+                cursor="zoom-in"
+                onClick={() => photos.length > 0 && setGalleryOpen(true)}
               />
               {listing.verificationStatus === 'verified' && (
                 <Badge
@@ -248,6 +261,14 @@ const PuppyPage = () => {
                 </Badge>
               )}
             </Box>
+            <ImageLightbox
+              images={photos.map((photo) => ({ src: photo, alt: listing.title }))}
+              index={photoIndex}
+              open={galleryOpen}
+              onOpenChange={setGalleryOpen}
+              onIndexChange={setPhotoIndex}
+            />
+
             {photos.length > 1 && (
               <Flex gap="8" mb="32" wrap="wrap">
                 {photos.map((photo, index) => (
