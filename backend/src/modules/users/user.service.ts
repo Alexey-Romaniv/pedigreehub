@@ -76,7 +76,12 @@ class UserService {
       return {
         ...u,
         breeder: breeder
-          ? { kennelName: breeder.kennelName, verificationStatus: breeder.verification?.status }
+          ? {
+              // id нужен админке, чтобы догрузить полный профиль (NIP, документы)
+              id: breeder._id.toString(),
+              kennelName: breeder.kennelName,
+              verificationStatus: breeder.verification?.status,
+            }
           : undefined,
       }
     })

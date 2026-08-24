@@ -392,6 +392,31 @@ export const breederController = {
   // ADMIN-методы
 
   /**
+   * Полный профиль заводчика для админа (включая NIP и документ личности)
+   * GET /api/admin/breeders/:id
+   */
+  async getBreederForAdmin(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params
+      if (!Types.ObjectId.isValid(id)) {
+        throw new AppError('Nieprawidłowy identyfikator hodowcy', 400)
+      }
+
+      const breeder = await breederService.getByIdForAdmin(new Types.ObjectId(id))
+      if (!breeder) {
+        throw new AppError('Hodowca nie znaleziony', 404)
+      }
+
+      res.json({
+        success: true,
+        data: breeder,
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
+
+  /**
    * Очередь верификации
    * GET /api/admin/breeders/pending
    */

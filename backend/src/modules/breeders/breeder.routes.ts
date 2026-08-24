@@ -337,6 +337,31 @@ adminRouter.get('/pending', breederController.getPendingVerification)
 
 /**
  * @openapi
+ * /admin/breeders/{id}:
+ *   get:
+ *     tags: [Admin]
+ *     summary: Pełny profil hodowcy (z NIP i dokumentem tożsamości)
+ *     description: Widok administracyjny — w przeciwieństwie do profilu publicznego nie ukrywa danych wrażliwych.
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Profil hodowcy
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+adminRouter.get('/:id', breederController.getBreederForAdmin)
+
+/**
+ * @openapi
  * /admin/breeders/{id}/approve:
  *   post:
  *     tags: [Admin]

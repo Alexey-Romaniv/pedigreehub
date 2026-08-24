@@ -154,8 +154,56 @@ export interface AdminUser {
   createdAt: string
   lastLoginAt?: string
   breeder?: {
+    id: string
     kennelName: string
     verificationStatus?: string
+  }
+}
+
+// Полный профиль заводчика для админа (GET /admin/breeders/:id) —
+// в отличие от публичного профиля здесь не вырезаны NIP и документ тождества
+export interface AdminBreederDocument {
+  _id: string
+  fileUrl: string
+  originalName?: string
+  status?: DocumentStatus
+  createdAt?: string
+}
+
+export interface AdminBreederDetails {
+  _id: string
+  kennelName: string
+  kennelRegistration: string
+  region: string
+  city: string
+  address?: string
+  website?: string
+  badges: string[]
+  listingsCount: number
+  createdAt: string
+  userId?: {
+    _id: string
+    firstName: string
+    lastName: string
+    email: string
+    phone?: string
+  }
+  verification: {
+    status: 'pending' | 'verified' | 'rejected'
+    level: 'new' | 'verified' | 'trusted' | 'professional'
+    emailVerified: boolean
+    zkwpVerified: boolean
+    zkwpVerifiedAt?: string
+    zkwpNote?: string
+    zkwpDocument?: AdminBreederDocument
+    identityVerified: boolean
+    identityVerifiedAt?: string
+    identityDocument?: AdminBreederDocument
+    nip?: string
+    nipVerified: boolean
+    nipVerifiedAt?: string
+    nipCompanyName?: string
+    nipPkd?: string
   }
 }
 

@@ -92,6 +92,19 @@ class BreederService {
   }
 
   /**
+   * Полный профиль для админ-панели — без вырезания приватных полей
+   * (NIP, документ личности), с подтянутыми документами и владельцем
+   */
+  async getByIdForAdmin(breederId: Types.ObjectId): Promise<IBreeder | null> {
+    return Breeder.findById(breederId)
+      .populate('userId', 'firstName lastName email phone isBlocked')
+      .populate('verification.zkwpDocument')
+      .populate('verification.identityDocument')
+      .populate('verification.breedingDogs.pedigreeDocument')
+      .populate('verification.awards.document')
+  }
+
+  /**
    * Статистика заводчика для дашборда — агрегация по объявлениям
    */
   async getMyStats(breeder: IBreeder): Promise<{

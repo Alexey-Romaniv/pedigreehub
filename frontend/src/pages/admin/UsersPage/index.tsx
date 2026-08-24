@@ -14,8 +14,9 @@ import {
 } from '@chakra-ui/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { LuLockKeyhole, LuLockKeyholeOpen, LuSearch } from 'react-icons/lu'
+import { LuChevronDown, LuChevronUp, LuLockKeyhole, LuLockKeyholeOpen, LuSearch } from 'react-icons/lu'
 import { adminApi } from '@/modules/admin/api'
+import { BreederDetails } from '@/modules/admin/components'
 import type { AdminUser, AdminUsersFilters } from '@/modules/admin/types'
 import { toaster } from '@/shared/theme/toaster'
 import { getApiErrorMessage } from '@/shared/api'
@@ -53,65 +54,82 @@ const UserRow = ({
   onToggleBlock: (user: AdminUser) => void
 }) => {
   const role = roleLabels[user.role]
+  const [showBreeder, setShowBreeder] = useState(false)
 
   return (
-    <Flex
-      bg="backgroundGrey"
-      borderRadius="12px"
-      p="16"
-      gap="16"
-      align={{ base: 'flex-start', md: 'center' }}
-      direction={{ base: 'column', md: 'row' }}
-    >
-      <Box flex="1" minW="0">
-        <Flex gap="8" align="center" wrap="wrap" mb="4">
-          <Text textStyle="labelMSemibold" color="contentBlack01">
-            {user.firstName} {user.lastName}
-          </Text>
-          <Badge colorPalette={role.color} size="sm">{role.label}</Badge>
-          {user.breeder && (
-            <Text textStyle="labelS" color="contentGrey" lineClamp={1}>
-              {user.breeder.kennelName}
+    <Box bg="backgroundGrey" borderRadius="12px" p="16">
+      <Flex
+        gap="16"
+        align={{ base: 'flex-start', md: 'center' }}
+        direction={{ base: 'column', md: 'row' }}
+      >
+        <Box flex="1" minW="0">
+          <Flex gap="8" align="center" wrap="wrap" mb="4">
+            <Text textStyle="labelMSemibold" color="contentBlack01">
+              {user.firstName} {user.lastName}
             </Text>
-          )}
-        </Flex>
-        <Text textStyle="labelS" color="contentGrey" mb="8">
-          {user.email} • {user.phone}
-        </Text>
-        <Flex gap="8" wrap="wrap">
-          <Badge colorPalette={user.isEmailVerified ? 'green' : 'orange'} size="sm">
-            {user.isEmailVerified ? 'Email potwierdzony' : 'Email niepotwierdzony'}
-          </Badge>
-          {user.isBlocked && (
-            <Badge colorPalette="red" size="sm">Zablokowany</Badge>
-          )}
-        </Flex>
-      </Box>
-
-      <Box flexShrink={0} textAlign={{ base: 'left', md: 'right' }}>
-        <Text textStyle="labelS" color="contentGrey" mb="8">
-          Rejestracja: {formatDate(user.createdAt)}
-        </Text>
-        {user.role !== 'admin' && (
-          <Button
-            variant="outline"
-            size="sm"
-            colorPalette={user.isBlocked ? 'green' : 'red'}
-            onClick={() => onToggleBlock(user)}
-          >
-            {user.isBlocked ? (
-              <>
-                <LuLockKeyholeOpen size={14} /> Odblokuj
-              </>
-            ) : (
-              <>
-                <LuLockKeyhole size={14} /> Zablokuj
-              </>
+            <Badge colorPalette={role.color} size="sm">{role.label}</Badge>
+            {user.breeder && (
+              <Text textStyle="labelS" color="contentGrey" lineClamp={1}>
+                {user.breeder.kennelName}
+              </Text>
             )}
+          </Flex>
+          <Text textStyle="labelS" color="contentGrey" mb="8">
+            {user.email} • {user.phone}
+          </Text>
+          <Flex gap="8" wrap="wrap">
+            <Badge colorPalette={user.isEmailVerified ? 'green' : 'orange'} size="sm">
+              {user.isEmailVerified ? 'Email potwierdzony' : 'Email niepotwierdzony'}
+            </Badge>
+            {user.isBlocked && (
+              <Badge colorPalette="red" size="sm">Zablokowany</Badge>
+            )}
+          </Flex>
+        </Box>
+
+        <Box flexShrink={0} textAlign={{ base: 'left', md: 'right' }}>
+          <Text textStyle="labelS" color="contentGrey" mb="8">
+            Rejestracja: {formatDate(user.createdAt)}
+          </Text>
+          {user.role !== 'admin' && (
+            <Button
+              variant="outline"
+              size="sm"
+              colorPalette={user.isBlocked ? 'green' : 'red'}
+              onClick={() => onToggleBlock(user)}
+            >
+              {user.isBlocked ? (
+                <>
+                  <LuLockKeyholeOpen size={14} /> Odblokuj
+                </>
+              ) : (
+                <>
+                  <LuLockKeyhole size={14} /> Zablokuj
+                </>
+              )}
+            </Button>
+          )}
+        </Box>
+      </Flex>
+
+      {/* Данные питомника подгружаются по требованию — там же NIP и документы */}
+      {user.breeder?.id && (
+        <>
+          <Button
+            variant="ghost"
+            size="sm"
+            mt="12"
+            px="0"
+            onClick={() => setShowBreeder((prev) => !prev)}
+          >
+            {showBreeder ? <LuChevronUp size={14} /> : <LuChevronDown size={14} />}
+            Dane hodowcy
           </Button>
-        )}
-      </Box>
-    </Flex>
+          {showBreeder && <BreederDetails breederId={user.breeder.id} />}
+        </>
+      )}
+    </Box>
   )
 }
 

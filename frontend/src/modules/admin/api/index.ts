@@ -8,6 +8,7 @@ import type {
   AdminUser,
   AdminUsersFilters,
   AdminStats,
+  AdminBreederDetails,
 } from '../types'
 
 export const adminApi = {
@@ -44,6 +45,14 @@ export const adminApi = {
 
   unblockUser: (id: string) =>
     api.post<{ success: boolean; message: string }>(`/admin/users/${id}/unblock`),
+
+  // Breeders
+  getBreederById: async (id: string): Promise<AdminBreederDetails> => {
+    const response = await api.get<{ success: boolean; data: AdminBreederDetails }>(
+      `/admin/breeders/${id}`
+    )
+    return response.data.data
+  },
 
   // Stats
   getStats: async (): Promise<AdminStats> => {
