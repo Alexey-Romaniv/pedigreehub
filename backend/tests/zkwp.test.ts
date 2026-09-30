@@ -144,6 +144,28 @@ describe('zkwpService.checkMicrochip', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2)
   })
 
+  it('таймаут 5 с: запрос прерывается, один ретрай, затем unavailable', async () => {
+    vi.useFakeTimers()
+    // fetch «висит», пока не сработает AbortController сервиса
+    fetchMock.mockImplementation(
+      (_url: string, init: { signal: AbortSignal }) =>
+        new Promise((_resolve, reject) => {
+          init.signal.addEventListener('abort', () => reject(new Error('aborted')))
+        })
+    )
+
+    const pending = zkwpService.checkMicrochip('616093901234567')
+    await vi.advanceTimersByTimeAsync(4999)
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    await vi.advanceTimersByTimeAsync(1)
+    await vi.advanceTimersByTimeAsync(5000)
+    const result = await pending
+
+    expect(result.status).toBe('unavailable')
+    expect(fetchMock).toHaveBeenCalledTimes(2)
+    vi.useRealTimers()
+  })
+
   it('HTTP-ошибка → ретрай → unavailable', async () => {
     fetchMock.mockResolvedValue({ ok: false, status: 503, text: async () => '' })
     const result = await zkwpService.checkMicrochip('616093901234567')
