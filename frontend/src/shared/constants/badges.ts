@@ -17,7 +17,7 @@ export const BREEDER_BADGES = [
     id: 'nip_verified',
     icon: '💼',
     label: 'Legalna działalność',
-    description: 'NIP zweryfikowany przez CEIDG',
+    description: 'NIP zweryfikowany w Białej Liście VAT',
     color: 'blue',
   },
   {

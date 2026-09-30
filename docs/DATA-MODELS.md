@@ -112,7 +112,7 @@
     identityVerified: Boolean,
     identityVerifiedAt: Date,
     
-    // NIP/CEIDG (опционально)
+    // NIP, Biała Lista VAT (опционально)
     nip: String,
     nipVerified: Boolean,
     nipVerifiedAt: Date,

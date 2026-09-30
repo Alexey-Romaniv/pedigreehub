@@ -172,7 +172,7 @@ Root Directory в проекте укажи `frontend`, добавь `VITE_API_U
 | `FRONTEND_URL` | `https://<домен-фронта>` — используется в CORS и ссылках в письмах |
 
 Остальные — `CLOUDINARY_*` (иначе не работает загрузка файлов), `SMTP_*` и `EMAIL_FROM` (письма),
-`CEIDG_TOKEN`, `ZKWP_CHECK_ENABLED`.
+`ZKWP_CHECK_ENABLED`.
 
 Сгенерировать секрет: `openssl rand -base64 48`
 

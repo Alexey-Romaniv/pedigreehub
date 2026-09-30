@@ -7,7 +7,7 @@ export type BadgeType =
   | 'email_verified'        // Email подтверждён
   | 'zkwp_verified'         // ZKwP проверен
   | 'identity_verified'     // Личность подтверждена
-  | 'nip_verified'          // NIP проверен через CEIDG
+  | 'nip_verified'          // NIP проверен в Białej Liście VAT
   | 'awards_verified'       // Награды подтверждены
   | 'kennel_photos'         // Фото питомника загружены
   | 'breeding_dogs_verified' // Родословные производителей
@@ -46,7 +46,7 @@ export interface IVerification {
   identityVerified: boolean
   identityVerifiedAt?: Date
   
-  // NIP/CEIDG (опционально)
+  // NIP, Biała Lista VAT (опционально)
   nip?: string
   nipVerified: boolean
   nipVerifiedAt?: Date

@@ -19,7 +19,7 @@ const VERIFICATION_STEPS = [
     icon: LuShieldCheck,
     title: 'Weryfikacja hodowcy',
     description:
-      'Sprawdzamy NIP hodowcy w Białej Liście VAT Ministerstwa Finansów oraz w rejestrze CEIDG.',
+      'Sprawdzamy NIP hodowcy w Białej Liście VAT Ministerstwa Finansów.',
   },
   {
     icon: LuFileCheck,

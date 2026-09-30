@@ -222,7 +222,7 @@ class BreederService {
   }
 
   /**
-   * Проверка NIP через CEIDG
+   * Проверка NIP через Białą Listę VAT (API Ministerstwa Finansów)
    */
   async verifyNIP(breederId: Types.ObjectId, nip: string): Promise<{
     verified: boolean
