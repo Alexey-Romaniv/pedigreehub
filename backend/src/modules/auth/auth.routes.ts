@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, Request } from 'express'
 import rateLimit from 'express-rate-limit'
 import { authController } from './auth.controller'
 import { authMiddleware } from '../../middleware/auth.middleware'
@@ -20,6 +20,47 @@ const resendVerificationLimiter = rateLimit({
       message: 'Za dużo próśb o link weryfikacyjny. Spróbuj ponownie za kilka minut',
     },
   },
+})
+
+// Лимиты против перебора паролей и токенов. Роуты публичные, поэтому ключ —
+// IP (+ email, чтобы атакующий не блокировал вход другим пользователям с того же NAT)
+const rateLimitedResponse = (message: string) => ({
+  success: false,
+  error: { code: 'RATE_LIMITED', message },
+})
+
+const emailKey = (req: Request) =>
+  `${req.ip}:${String(req.body?.email ?? '').trim().toLowerCase()}`
+
+// Считаются только неудачные попытки: 10 ошибок за 15 минут на пару IP + email
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  keyGenerator: emailKey,
+  skipSuccessfulRequests: true,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: rateLimitedResponse('Za dużo nieudanych prób logowania. Spróbuj ponownie za 15 minut'),
+})
+
+// Каждый запрос шлёт письмо — ограничиваем и спам, и перебор адресов
+const forgotPasswordLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  keyGenerator: emailKey,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: rateLimitedResponse('Za dużo próśb o reset hasła. Spróbuj ponownie za godzinę'),
+})
+
+// Перебор токена сброса: 10 неудачных попыток за 15 минут с одного IP
+const resetPasswordLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  skipSuccessfulRequests: true,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: rateLimitedResponse('Za dużo prób ustawienia hasła. Spróbuj ponownie za 15 minut'),
 })
 
 // Публичные роуты
@@ -127,8 +168,10 @@ authRoutes.post('/register/breeder', authController.registerBreeder)
  *         description: "Zwraca { user, accessToken, refreshToken }"
  *       401:
  *         description: Nieprawidłowe dane logowania lub konto zablokowane (ACCOUNT_BLOCKED)
+ *       429:
+ *         description: 10 nieudanych prób w ciągu 15 minut (RATE_LIMITED)
  */
-authRoutes.post('/login', authController.login)
+authRoutes.post('/login', loginLimiter, authController.login)
 
 /**
  * @openapi
@@ -172,8 +215,10 @@ authRoutes.post('/refresh', authController.refreshToken)
  *     responses:
  *       200:
  *         description: Zawsze sukces
+ *       429:
+ *         description: Więcej niż 5 próśb w ciągu godziny (RATE_LIMITED)
  */
-authRoutes.post('/forgot-password', authController.forgotPassword)
+authRoutes.post('/forgot-password', forgotPasswordLimiter, authController.forgotPassword)
 
 /**
  * @openapi
@@ -197,8 +242,10 @@ authRoutes.post('/forgot-password', authController.forgotPassword)
  *         description: Hasło zmienione
  *       400:
  *         description: Token nieprawidłowy/wykorzystany lub hasło za słabe
+ *       429:
+ *         description: 10 nieudanych prób w ciągu 15 minut (RATE_LIMITED)
  */
-authRoutes.post('/reset-password', authController.resetPassword)
+authRoutes.post('/reset-password', resetPasswordLimiter, authController.resetPassword)
 
 /**
  * @openapi

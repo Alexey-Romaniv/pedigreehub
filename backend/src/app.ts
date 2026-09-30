@@ -8,6 +8,12 @@ import { swaggerSpec } from './config/swagger.js'
 
 export const app = express()
 
+// За прокси Northflank реальный IP клиента приходит в X-Forwarded-For —
+// без этого rate limit считал бы всех пользователей одним адресом
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1)
+}
+
 // Swagger UI — до helmet, иначе CSP блокирует inline-скрипты UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.get('/api-docs.json', (req, res) => res.json(swaggerSpec))

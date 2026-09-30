@@ -155,7 +155,8 @@ export const authService = {
 
     const tokens = generateTokens(user._id.toString(), user.role)
 
-    user.refreshToken = tokens.refreshToken
+    // Как и токены из писем, refresh token хранится только в виде sha256-хеша
+    user.refreshToken = hashToken(tokens.refreshToken)
     user.lastLoginAt = new Date()
     await user.save()
 
@@ -229,12 +230,12 @@ export const authService = {
       const decoded = jwt.verify(refreshToken, JWT_SECRET) as TokenPayload
       const user = await User.findById(decoded.userId)
       
-      if (!user || user.refreshToken !== refreshToken) {
+      if (!user || user.refreshToken !== hashToken(refreshToken)) {
         throw new AppError('Nieprawidłowy token', 401, 'INVALID_TOKEN')
       }
 
       const tokens = generateTokens(user._id.toString(), user.role)
-      user.refreshToken = tokens.refreshToken
+      user.refreshToken = hashToken(tokens.refreshToken)
       await user.save()
 
       return tokens
