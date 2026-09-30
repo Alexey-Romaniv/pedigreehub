@@ -111,10 +111,16 @@ const BreederProfilePage = () => {
   const visibleBadges = BREEDER_BADGES.filter((badge) =>
     (breeder.badges as string[]).includes(badge.id)
   )
-  const memberSince = new Date(breeder.createdAt).toLocaleDateString('pl-PL', {
+  // «od września 2026»: месяц в родительном падеже Intl даёт только вместе с днём
+  const memberSince = new Intl.DateTimeFormat('pl-PL', {
+    day: 'numeric',
     month: 'long',
     year: 'numeric',
   })
+    .formatToParts(new Date(breeder.createdAt))
+    .filter((part) => part.type === 'month' || part.type === 'year')
+    .map((part) => part.value)
+    .join(' ')
 
   return (
     <Box bg="backgroundPrimary" minH="100vh">
