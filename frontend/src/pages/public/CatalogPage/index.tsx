@@ -46,11 +46,15 @@ const CatalogPage = () => {
   // Мобильный Drawer с фильтрами
   const [filtersOpen, setFiltersOpen] = useState(false)
 
-  // Синхронизация инпутов с URL при back/forward
+  // Синхронизация инпутов с URL при back/forward. Эффекты раздельные: применение
+  // одной цены (blur) не должно затирать второе поле, которое пользователь как раз заполняет
   useEffect(() => {
     setPriceMinInput(priceMin)
+  }, [priceMin])
+
+  useEffect(() => {
     setPriceMaxInput(priceMax)
-  }, [priceMin, priceMax])
+  }, [priceMax])
 
   const setParam = (key: string, value: string) => {
     const next = new URLSearchParams(searchParams)
