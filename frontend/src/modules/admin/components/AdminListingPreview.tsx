@@ -104,7 +104,9 @@ export const AdminListingPreview = ({
         : null
 
   const handleReject = () => {
-    onReject(listing._id, rejectReason || undefined)
+    // Сервер требует причину — пустую не отправляем
+    if (!rejectReason.trim()) return
+    onReject(listing._id, rejectReason.trim())
     setRejectReason('')
     setShowRejectForm(false)
   }
@@ -172,7 +174,7 @@ export const AdminListingPreview = ({
           <Stack gap="12">
             <Box>
               <Text textStyle="labelM" color="contentBlack01" mb="8">
-                Powód odrzucenia (opcjonalnie)
+                Powód odrzucenia
               </Text>
               <Textarea
                 w="full"
@@ -200,6 +202,7 @@ export const AdminListingPreview = ({
                 color="white"
                 onClick={handleReject}
                 loading={isRejecting}
+                disabled={!rejectReason.trim()}
               >
                 <LuX size={16} />
                 Odrzuć
