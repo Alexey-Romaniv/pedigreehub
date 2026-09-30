@@ -65,7 +65,10 @@ export const InquiryThreadView = ({ inquiry, role, backPath }: InquiryThreadView
   const isClosed = inquiry.status === 'closed'
   const isConfirmed = inquiry.status === 'purchase_confirmed'
   const canMessage = !isClosed
-  const canConfirm = role === 'buyer' && !isClosed && !isConfirmed
+  // Сервер разрешает подтверждение только после ответа заводчика (NO_BREEDER_REPLY),
+  // поэтому кнопку показываем лишь в статусе in_progress
+  const canConfirm = role === 'buyer' && inquiry.status === 'in_progress'
+  const awaitingReply = role === 'buyer' && (inquiry.status === 'new' || inquiry.status === 'read')
   const canClose = !isClosed && !isConfirmed
 
   // Autoscroll do ostatniej wiadomości — скроллим только контейнер сообщений,
@@ -163,6 +166,11 @@ export const InquiryThreadView = ({ inquiry, role, backPath }: InquiryThreadView
         )}
         <Flex direction="column" align={{ base: 'flex-start', md: 'flex-end' }} gap="8">
           <InquiryStatusBadge status={inquiry.status} size="md" />
+          {awaitingReply && (
+            <Text textStyle="labelS" color="contentGrey">
+              Zakup potwierdzisz po odpowiedzi hodowcy
+            </Text>
+          )}
           <Flex gap="8">
             {canConfirm && (
               <Button variant="solid" size="xs" onClick={() => setConfirmOpen(true)}>
@@ -195,7 +203,7 @@ export const InquiryThreadView = ({ inquiry, role, backPath }: InquiryThreadView
           </Box>
           <Text textStyle="labelM" color="contentBlack01">
             {role === 'buyer'
-              ? 'Zakup został potwierdzony. Wkrótce będziesz mógł wystawić opinię hodowcy.'
+              ? 'Zakup został potwierdzony. Możesz teraz wystawić opinię hodowcy.'
               : 'Kupujący potwierdził zakup szczeniaka.'}
           </Text>
         </Flex>
