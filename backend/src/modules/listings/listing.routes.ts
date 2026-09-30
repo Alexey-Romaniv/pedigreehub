@@ -155,10 +155,8 @@ router.get('/my', authMiddleware, listingController.getMyListings as RequestHand
  *     responses:
  *       200:
  *         description: Dane ogłoszenia
- *       403:
- *         $ref: '#/components/responses/Forbidden'
  *       404:
- *         $ref: '#/components/responses/NotFound'
+ *         description: Ogłoszenie nie istnieje albo nie jest publiczne, a pytający nie jest właścicielem (nie ujawnia istnienia rekordu)
  */
 router.get('/:id', optionalAuthMiddleware, listingController.getById as RequestHandler)
 
@@ -286,10 +284,8 @@ adminRouter.get('/pending', listingController.getModerationListings as RequestHa
  *     responses:
  *       200:
  *         description: Dane ogłoszenia
- *       403:
- *         $ref: '#/components/responses/Forbidden'
  *       404:
- *         $ref: '#/components/responses/NotFound'
+ *         description: Ogłoszenie nie istnieje albo nie jest publiczne, a pytający nie jest właścicielem (nie ujawnia istnienia rekordu)
  */
 adminRouter.get('/:id', listingController.getByIdForAdmin as RequestHandler)
 

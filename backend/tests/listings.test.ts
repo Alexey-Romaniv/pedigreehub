@@ -122,9 +122,17 @@ describe('GET /api/listings/:id', () => {
     expect(res.body.data._id).toBe(publicListingId)
   })
 
-  it('niepubliczne ogłoszenie: 403 dla anonima', async () => {
+  it('niepubliczne ogłoszenie: 404 dla anonima (nie ujawnia istnienia)', async () => {
     const res = await request(app).get(`/api/listings/${pendingListingId}`)
-    expect(res.status).toBe(403)
+    expect(res.status).toBe(404)
+  })
+
+  it('niepubliczne ogłoszenie: 404 dla innego zalogowanego użytkownika', async () => {
+    const { token } = await registerAndLoginUser()
+    const res = await request(app)
+      .get(`/api/listings/${pendingListingId}`)
+      .set('Authorization', `Bearer ${token}`)
+    expect(res.status).toBe(404)
   })
 
   it('niepubliczne ogłoszenie: 200 dla właściciela', async () => {

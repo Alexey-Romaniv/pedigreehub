@@ -288,8 +288,9 @@ export const listingController = {
         isOwner = !!breeder && listingBreederId.toString() === breeder._id.toString()
       }
 
+      // 404, а не 403: посторонний не должен узнать, что объявление существует
       if (!isPublic && !isOwner && !isAdmin) {
-        throw new AppError('Brak dostępu', 403)
+        throw new AppError('Ogłoszenie nie zostało znalezione', 404)
       }
 
       // Счётчик просмотров: только публичные просмотры (аноним/покупатель),
