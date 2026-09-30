@@ -14,6 +14,7 @@
     "seed-zkwp-cases": "tsx src/scripts/seed-zkwp-cases.ts",
     "test-email": "tsx src/scripts/test-email.ts",
     "check-chip": "tsx src/scripts/check-chip.ts",
+    "bench-catalog": "tsx src/scripts/bench-catalog.ts",
     "lint": "eslint src",
     "test": "vitest run"
   },
