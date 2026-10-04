@@ -6,7 +6,6 @@
  * Официального API нет — используется публичная поисковая форма
  * https://zkwp.pl/baza_chip.php (POST chip=<15 цифр>). Best-effort:
  * сервис никогда не бросает, любые сбои → status 'unavailable'.
- * Спека: docs/ZKWP-INTEGRATION-SPEC.md
  */
 
 export type ZkwpChipStatus = 'found' | 'not_found' | 'unavailable'

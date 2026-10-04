@@ -1,143 +1,100 @@
 # PedigreeHub
 
-Платформа для заводчиков породистых собак с верификацией
+Platforma weryfikowanej sprzedaży psów rasowych: aplikacja webowa z wielopoziomową weryfikacją hodowców i dokumentów (praca inżynierska, Uniwersytet Pomorski w Słupsku).
 
-## Описание
+- Aplikacja: https://pedigreehub-2of.pages.dev
+- REST API: https://p01--pedigreehub--7c56cq6kyfkf.code.run
+- Dokumentacja API (Swagger UI): https://p01--pedigreehub--7c56cq6kyfkf.code.run/api-docs
 
-PedigreeHub — специализированная веб-платформа для легальной продажи породистых собак с полной документацией. Система обеспечивает верификацию заводчиков и документов животных.
+## Technologie
 
-## Технологический стек
+- **Serwer:** Node.js 22, Express 4, TypeScript, MongoDB 7 + Mongoose 8, Zod, JWT, Cloudinary, Nodemailer, Swagger UI
+- **Klient:** React 19, TypeScript, Vite, Chakra UI v3, TanStack Query, Zustand, React Hook Form
+- **Testy:** Vitest + Supertest
 
-### Frontend
-- React 19 + TypeScript
-- Chakra UI v3
-- React Query + Zustand
-- React Hook Form + Zod
-- Vite
+## Wymagania
 
-### Backend
-- Express.js + TypeScript
-- MongoDB + Mongoose
-- JWT аутентификация
-- Cloudinary (файлы)
-- Nodemailer (email)
+- Node.js 22 lub nowszy
+- Yarn 1.x (`npm i -g yarn`)
+- Docker (baza MongoDB w kontenerze)
 
-## Быстрый старт
+## Uruchomienie lokalne
 
-### Требования
-- Node.js 18+
-- MongoDB 6+
-- Yarn
+### 1. Baza danych
 
-### Backend
+```bash
+docker compose up -d
+```
+
+Uruchamia MongoDB 7 na porcie 27017 (kontener `pedigreehub-mongo`, dane w wolumenie `mongo-data`).
+
+### 2. Serwer (REST API)
 
 ```bash
 cd backend
 cp env.example .env
-# Отредактируйте .env файл
-
 yarn install
 yarn dev
 ```
 
-Сервер запустится на http://localhost:3000
+API działa pod adresem http://localhost:3000, dokumentacja Swagger pod http://localhost:3000/api-docs. Przy pierwszym uruchomieniu automatycznie wypełnia się słownik ras.
 
-### Frontend
+W pliku `.env` obowiązkowe są `MONGODB_URI` i `JWT_SECRET` (wartości z `env.example` wystarczą lokalnie). Do przesyłania zdjęć i dokumentów potrzebne są klucze Cloudinary. SMTP jest opcjonalne: bez niego wiadomości e-mail, w tym linki weryfikacyjne, trafiają do konsoli serwera.
+
+### 3. Dane demonstracyjne i konto administratora
+
+W drugim terminalu:
+
+```bash
+cd backend
+yarn create-admin admin@pedigreehub.pl <hasło>
+yarn seed-demo
+```
+
+`seed-demo` tworzy trzy zweryfikowane hodowle z ogłoszeniami, kupujących, historię sprzedaży z opiniami i zapytania we wszystkich statusach. Zdjęcia demonstracyjne są już w Cloudinary, więc do przeglądania platformy klucze nie są potrzebne. Skrypt jest idempotentny: usuwa i tworzy wyłącznie własne dane.
+
+### 4. Klient
 
 ```bash
 cd frontend
 cp env.example .env
-# Отредактируйте .env файл
-
 yarn install
 yarn dev
 ```
 
-Приложение запустится на http://localhost:5173
+Aplikacja działa pod adresem http://localhost:5173 (jeśli port jest zajęty, Vite wybiera kolejny wolny i podaje go w konsoli).
 
-## Структура проекта
+## Testy i pomiary
 
-```
-pedigreehub-docs/
-├── docs/                   # Документация проекта
-│   ├── README.md           # Обзор проекта
-│   ├── ARCHITECTURE.md     # Архитектура
-│   ├── USER-FLOWS.md       # Пользовательские сценарии
-│   ├── MODULES.md          # Описание модулей
-│   ├── DATA-MODELS.md      # Модели данных
-│   ├── API.md              # API документация
-│   ├── TEAM-SPLIT.md       # Разделение работы
-│   ├── TECH-STACK.md       # Технологии
-│   └── DEVELOPMENT-PLAN.md # План разработки
-│
-├── frontend/               # React приложение
-│   ├── src/
-│   │   ├── app/            # Провайдеры, роутер
-│   │   ├── pages/          # Страницы
-│   │   ├── modules/        # Бизнес-модули
-│   │   ├── shared/         # Переиспользуемое
-│   │   └── store/          # Zustand
-│   ├── package.json
-│   └── vite.config.ts
-│
-└── backend/                # Express API
-    ├── src/
-    │   ├── config/         # Конфигурация
-    │   ├── modules/        # API модули
-    │   ├── middleware/     # Middleware
-    │   └── routes/         # Роуты
-    ├── package.json
-    └── tsconfig.json
-```
-
-## Документация
-
-| Документ | Описание |
-|----------|----------|
-| [README](./docs/README.md) | Обзор проекта |
-| [Архитектура](./docs/ARCHITECTURE.md) | Структура и слои |
-| [User Flows](./docs/USER-FLOWS.md) | Пользовательские сценарии |
-| [Модули](./docs/MODULES.md) | Описание модулей |
-| [Модели данных](./docs/DATA-MODELS.md) | MongoDB схемы |
-| [API](./docs/API.md) | REST эндпоинты |
-| [Команда](./docs/TEAM-SPLIT.md) | Разделение задач |
-| [Технологии](./docs/TECH-STACK.md) | Стек технологий |
-| [План](./docs/DEVELOPMENT-PLAN.md) | План на 8 недель |
-
-## Роли пользователей
-
-| Роль | Возможности |
-|------|-------------|
-| **Гость** | Просмотр каталога, фильтрация |
-| **Пользователь** | + Отправка запросов, отзывы |
-| **Заводчик** | + Создание объявлений, управление |
-| **Администратор** | + Верификация, модерация |
-
-## Основные команды
-
-### Backend
 ```bash
-yarn dev          # Запуск в режиме разработки
-yarn build        # Сборка
-yarn start        # Запуск production
+cd backend
+yarn test              # 79 testów; wymaga uruchomionej bazy z kroku 1 (osobna baza pedigreehub-test)
+yarn bench-catalog     # czas odpowiedzi katalogu na stronę 100 ogłoszeń (osobna baza pedigreehub-bench)
 ```
 
-### Frontend
-```bash
-yarn dev          # Запуск в режиме разработки
-yarn build        # Сборка
-yarn preview      # Просмотр сборки
+Kontrola typów i analiza statyczna: `yarn build` oraz `yarn lint` w katalogach `backend` i `frontend`.
+
+## Skrypty pomocnicze (`backend`)
+
+| Polecenie | Działanie |
+|---|---|
+| `yarn create-admin [email] [hasło]` | Konto administratora |
+| `yarn seed-demo` | Dane demonstracyjne |
+| `yarn seed-zkwp-cases [--clean]` | Pięć ogłoszeń ze wszystkimi wynikami sprawdzenia w bazie ZKwP |
+| `yarn check-chip <numer>` | Sprawdzenie numeru mikroczipa w bazie ZKwP z wiersza poleceń |
+| `yarn test-email <adres>` | Kontrola konfiguracji SMTP |
+| `yarn backup-db` | Kopia zapasowa bazy |
+| `yarn bench-catalog [liczba]` | Pomiar czasu odpowiedzi katalogu |
+
+## Struktura repozytorium
+
+```
+backend/    REST API: src/modules/<moduł> (model, serwis, kontroler, trasy, walidacja),
+            src/services (Biała Lista VAT, baza ZKwP, Cloudinary, e-mail), tests/
+frontend/   aplikacja SPA (Feature-Sliced Design): src/app, pages, modules, shared, store
+docs/       źródła i licencje zdjęć demo
 ```
 
-## План разработки
+## Wdrożenie
 
-- **Неделя 1-2:** Setup + Auth
-- **Неделя 3-4:** Core API + Catalog
-- **Неделя 5-6:** Panels (Breeder + Admin)
-- **Неделя 7:** Polish + Testing
-- **Неделя 8:** Deploy
-
-## Лицензия
-
-MIT License © 2024
-
+Klient: Cloudflare Pages, serwer: Northflank (obraz z `backend/Dockerfile`), baza: MongoDB Atlas.
